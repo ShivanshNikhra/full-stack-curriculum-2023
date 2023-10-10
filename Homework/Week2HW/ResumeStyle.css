@@ -1,0 +1,168 @@
+body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+}
+
+.heading {
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 30px;
+    margin-right: 12.5%; 
+    margin-left: 12.5%; 
+}
+
+.name {
+    display: flex; 
+    flex-direction: column;
+    gap: 10px
+}
+
+.bigName {
+    font-size: 50px;
+}
+
+.tagLine {
+    font-size: 30px;
+}
+
+.personalInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    font-weight: bold;
+}
+
+.email {
+    color: darkred;
+    font-size: 20px;
+}
+
+.downloadPDFButton {
+    height: 35px;
+    background-color: grey;
+    color: white;
+    font-size: 15px;
+}
+
+.phoneNumber {
+    color: grey;
+    font-size: 20px;
+    align-self: center;
+}
+
+.profile {
+    display: flex;
+    flex-direction: row;
+    gap: 100px; 
+    margin-right: 12.5%; 
+    margin-left: 12.5%; 
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.tag {
+    font-size: 30px;
+    color: grey; 
+    font-weight: bold;
+}
+
+.profileParagraph {
+    font-size: 20px;
+}
+
+.skills {
+    display: flex;
+    flex-direction: row;
+    gap: 100px; 
+    margin-right: 12.5%; 
+    margin-left: 12.5%; 
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.blocks {
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.indiBlock {
+    display: flex; 
+    flex-direction: column;
+    gap:10px; 
+}
+
+.skillTitle {
+    font-size: 25px;
+}
+
+.technical {
+    display: flex;
+    flex-direction: row;
+    gap: 50px; 
+    margin-right: 12.5%; 
+    margin-left: 12.5%; 
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+table {
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 5px;
+}
+
+tr { 
+    border: solid;
+    border-color: grey;
+    border-width: 1px 0;
+    font-size: 17px;
+    color: grey;
+}
+
+.table-first-child {
+    border-top: none;
+}
+
+.table-last-child {
+    border-bottom: none;
+}
+
+.experience {
+    display: flex;
+    flex-direction: row;
+    gap: 50px; 
+    margin-right: 12.5%; 
+    margin-left: 12.5%; 
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.totalExperiences {
+    display: flex; 
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 20px; 
+}
+
+.single-experience {
+    display: flex; 
+    flex-direction: column;
+    gap:5px;
+}
+
+.experience-header {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-between;
+    font-size: 25px;
+}
+
+.experience-date {
+    font-size: 20px;
+    margin-top: 5px;
+}

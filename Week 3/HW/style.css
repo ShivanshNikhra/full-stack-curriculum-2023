@@ -1,0 +1,143 @@
+* {
+    padding: 0px;
+    margin: 0px;
+  }
+  
+  body {
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+    display: flex;
+    font-family: sans-serif;
+    box-sizing: border-box;
+  }
+  
+  img,
+  .hidden {
+    display: none;
+  }
+  
+  img[src] {
+    display: block;
+  }
+  
+  #main-container {
+    height: 100%;
+    width: 66%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #87b7ff;
+  }
+  
+  #weather-container {
+    display: flex; 
+    flex-direction: column;
+    height: 60%;
+    width: 90%;
+    gap: 30px;
+
+  }
+
+  .todayWeatherBlock {
+    display: flex; 
+    flex-direction: column; 
+  }
+
+  .todayActualWeather {
+    display: flex; 
+    flex-direction: row; 
+    align-items: center;
+    gap: 30px; 
+  }
+
+  .todayTemperatureStats {
+    display: flex; 
+    flex-direction: column; 
+    gap: 5px;
+  }
+
+
+  .todayWeatherHeader {
+    display: flex; 
+    flex-direction: column; 
+    gap: 5px;
+  }
+  
+  #side-container {
+    height: 100%;
+    width: 34%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #search-input {
+    padding: 10px;
+    border-radius: 5px;
+    border-width: 1px;
+    margin-right: 16px;
+    margin-bottom: 16px;
+  }
+  
+  #search-button {
+    padding: 10px;
+    background-color: #0075ff;
+    color: #ffffff;
+    border-radius: 5px;
+    border-width: 1px;
+  }
+  
+  .search-result:hover {
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .weatherBlockDiv {
+    display: flex; 
+    flex-direction: row;
+    margin-right: 2.5%;
+    margin-left: 2.5%;
+    justify-content: space-between;
+  }
+
+  .weatherBlock {
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    background-color: white;
+    height: 150px;
+    width: 100px;
+  }
+  
+  .date {
+    font-size: 12.5px; 
+    font-weight: bold;
+  }
+
+  .todayWeatherDate {
+    font-size: 15px;
+    font-weight: bold;
+  }
+  
+  .todayWeatherLocation {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .todayWeatherType {
+    font-size: 17.5px;
+    font-weight: bold;
+  }
+
+  .todayTemperature {
+    font-size: 40px;
+    font-weight: bold;
+  }
+
+  .todayAQI {
+    font-weight: bold;
+  }

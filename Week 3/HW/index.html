@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Weather Complete</title>
+	<meta charset="UTF-8" />
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+	<div id='main-container'>
+		<div id='weather-container'>
+			<!-- <img src="icons/01d.svg" alt="Dinosaur" /> -->
+		</div> 
+	</div>
+	<div id='side-container'>
+		<div>
+			<input id='search-input' placeholder='search for a city'></input>
+			<button id='search-button' onclick="search()">search</button>
+		</div>
+		<ul id='search-results-list'></ul>
+	</div>
+</body>
+
+<script>
+		// USE YOUR OWN API KEY
+		const apiKey = "a8a1fc5c54fe7d7d4d3d53dbfec6633d";
+
+        // variable that stores the city that is chosen
+		let city;
+        // variable that stores the weather and forecast for the city
+		let weather;
+        // the variable that stores the air quality index for the city
+		let aqi;
+
+		// function that accepts that a number N and returns the name of the day and the date N days from now as a string
+		function formatDate(daysFromNow = 0) {
+			let output = ''
+			var date = new Date();
+			date.setDate(date.getDate() + daysFromNow);
+			output += date.toLocaleString('en-US', { weekday: 'long' }).toUpperCase()
+			output += ' ' + date.getDate()
+			return output
+		}
+
+		// function that uses OpenWeatherMap's geocoding API to find locations
+		function search() {
+			// takes the value from the search input
+			let searchInput = document.querySelector("#search-input").value;
+			if (searchInput) {
+				// creates the API call with the value from the search input as a query
+				let apiCall = `https://api.openweathermap.org/geo/1.0/direct?q=${searchInput},,US&limit=5&appid=${apiKey}`;
+				// calls the API
+				fetch(apiCall)
+					.then((response) => 
+						// after recieving a response, take the response from the server and convert it to JSON 
+						response.json()
+					)
+					.then((data) => {
+						// after recieving the converted JSON data, pass the JSON to the renderSearchResults() function
+						renderSearchResults(data)
+					});
+			}
+		}
+
+		// function that renders the search results as a unordered list
+		function renderSearchResults(searchResults) {
+				// selects the unordered list element search-results-list
+				const ul = document.querySelector('#search-results-list')
+				// shows the unordered list if was hidden previously
+				ul.classList.remove("hidden");
+				// clears out any list items from the previous search
+				ul.innerHTML = ''
+				// loops through each search result and creates and attaches a list item for the unordered list
+				searchResults.forEach((searchResult, index) => {
+					// creates a new unordered list element
+					const li = document.createElement('li')
+					// sets the list item's class as search-result
+					li.setAttribute('class', 'search-result')
+					// sets the text inside the list item as the name and state of the city 
+					const fullName = searchResult.name + ', ' + searchResult.state
+					li.innerHTML = fullName
+					// if the list item of a city is clicked, call the selectCity() function
+					li.addEventListener('click', () => selectCity(fullName, searchResult.name, searchResult.state, searchResult.lat, searchResult.lon))
+					// attaches the list item elements to search-results-list
+					ul.appendChild(li)
+			})	
+		}
+
+		// function that is called whenever a city has been selected
+		async function selectCity(fullName, name, state, lat, lon) {
+			// hides the search-results-list since it is not needed right now
+			document.querySelector('#search-results-list').className = 'hidden'
+			// sets the global city variable
+			document.querySelector("#search-input").value = ''
+			city = {
+				fullName: fullName,
+				name: name,
+				state: state,
+				lat: lat,
+				lon: lon
+			}
+
+            // BEGIN CODING HERE
+			const weatherContainer = document.querySelector('#weather-container'); 
+			weatherContainer.innerHTML = '' 
+
+			const data = await fiveDayData()
+			const aqi = await retrieveAQI()
+			createWeatherBlocks(data, city.name, city.state, aqi)
+		}
+
+		async function retrieveAQI() {
+			let apiCall = `http://api.openweathermap.org/data/2.5/air_pollution?lat=50&lon=50&appid=${apiKey}`
+			const response = await fetch(apiCall)
+			const data = await response.json() 
+
+			return data.list[0].main.aqi 
+		}
+
+		function createWeatherBlocks(data, cityName, stateName, aqi) {
+			const weatherContainer = document.querySelector('#weather-container'); 
+
+			const todayWeatherBlockDiv = document.createElement("div");
+			todayWeatherBlockDiv.classList.add("todayWeatherBlock")
+
+			
+			const todayWeatherHeader = document.createElement("div");
+			todayWeatherHeader.classList.add("todayWeatherHeader")
+
+			const todayWeatherDate = document.createElement("span")
+			todayWeatherDate.textContent = formatDate(0); 
+			todayWeatherDate.classList.add("todayWeatherDate")
+
+			const todayWeatherLocation = document.createElement("span")
+			todayWeatherLocation.textContent = `Weather for ${cityName}, ${stateName}`
+			todayWeatherLocation.classList.add("todayWeatherLocation")
+
+			todayWeatherHeader.appendChild(todayWeatherDate)
+			todayWeatherHeader.appendChild(todayWeatherLocation)
+
+			todayWeatherBlockDiv.appendChild(todayWeatherHeader)
+
+			
+			const todayActualWeather = document.createElement("div"); 
+			todayActualWeather.classList.add("todayActualWeather")
+
+			const todayTemperatureStats = document.createElement("div");  
+			todayTemperatureStats.classList.add("todayTemperatureStats");
+
+			const todayWeatherType = document.createElement("span")
+			todayWeatherType.textContent = `${data[0].weather[0].main}`
+			todayWeatherType.classList.add("todayWeatherType")
+
+			const todayTemperature = document.createElement("span")
+			todayTemperature.textContent = `${Math.trunc(data[0].main.temp)}°`
+			todayTemperature.classList.add("todayTemperature")
+
+			const todayAQI = document.createElement("span")
+			todayAQI.textContent = `AQI: ${aqi}`
+			todayAQI.classList.add("todayAQI") 
+
+			todayTemperatureStats.appendChild(todayWeatherType); 
+			todayTemperatureStats.appendChild(todayTemperature); 
+			todayTemperatureStats.appendChild(todayAQI)
+
+			const todayWeatherImgDiv = document.createElement("div")
+			todayWeatherImgDiv.classList.add("todayWeatherImgDiv") 
+
+			const todayWeatherImage = document.createElement("img")
+			todayWeatherImage.src = `icons/${data[0].weather[0].icon}.svg`
+			todayWeatherImage.alt = "Weather Picture"
+			todayWeatherImage.style.height = '150px'
+			todayWeatherImage.style.width = '150px'
+
+
+			todayWeatherImgDiv.appendChild(todayWeatherImage)
+
+
+
+			todayActualWeather.appendChild(todayTemperatureStats)
+			todayActualWeather.appendChild(todayWeatherImgDiv)
+			todayWeatherBlockDiv.appendChild(todayActualWeather)
+			weatherContainer.appendChild(todayWeatherBlockDiv)
+
+
+
+
+
+
+			const weatherBlockDiv = document.createElement("div");
+			weatherBlockDiv.classList.add("weatherBlockDiv");
+
+			for(let i = 1; i < 6; i++) {
+				const weatherBlock = document.createElement("div")
+				weatherBlock.classList.add("weatherBlock"); 
+
+				const dateSpan = document.createElement("span")
+				dateSpan.classList.add("date")
+				dateSpan.textContent = formatDate(i);
+
+				const img = document.createElement("img")
+				img.src = `icons/${data[i].weather[0].icon}.svg`
+				img.alt = "Weather Picture"
+
+				const tempSpan = document.createElement("span")
+				tempSpan.textContent = `${Math.trunc(data[i].main.temp_min)}° to ${Math.trunc(data[i].main.temp_max)}°`
+				
+				weatherBlock.appendChild(dateSpan)
+				weatherBlock.appendChild(img)
+				weatherBlock.appendChild(tempSpan)
+
+				weatherBlockDiv.appendChild(weatherBlock)
+			}
+			weatherContainer.appendChild(weatherBlockDiv)
+		}
+
+		async function fiveDayData() {
+			let apiCall = `http://api.openweathermap.org/data/2.5/forecast?lat=${city.lat}&lon=${city.lon}&appid=${apiKey}&units=imperial`
+			const response = await fetch(apiCall)
+			const data = await response.json() 
+
+			const sixDays = []
+
+			for(let i = 0; i < data.list.length; i++) {
+				if(i % 8 == 0) {
+					sixDays.push(data.list[i])
+				}
+			}
+
+			if(data.list.length <= 40) {
+				sixDays.push(data.list[data.list.length - 1]); 
+			}
+			return sixDays; 
+		}
+	</script>
+</html>
+
+
+
