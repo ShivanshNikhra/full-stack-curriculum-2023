@@ -122,19 +122,19 @@
 			const weatherContainer = document.querySelector('#weather-container'); 
 
 			const todayWeatherBlockDiv = document.createElement("div");
-			todayWeatherBlockDiv.classList.add("todayWeatherBlock")
+			todayWeatherBlockDiv.className = "todayWeatherBlock"
 
 			
 			const todayWeatherHeader = document.createElement("div");
-			todayWeatherHeader.classList.add("todayWeatherHeader")
+			todayWeatherHeader.className = "todayWeatherHeader"
 
 			const todayWeatherDate = document.createElement("span")
-			todayWeatherDate.textContent = formatDate(0); 
-			todayWeatherDate.classList.add("todayWeatherDate")
+			todayWeatherDate.innerText = formatDate(0); 
+			todayWeatherDate.className = "todayWeatherDate"
 
 			const todayWeatherLocation = document.createElement("span")
-			todayWeatherLocation.textContent = `Weather for ${cityName}, ${stateName}`
-			todayWeatherLocation.classList.add("todayWeatherLocation")
+			todayWeatherLocation.innerText = `Weather for ${cityName}, ${stateName}`
+			todayWeatherLocation.className = "todayWeatherLocation"
 
 			todayWeatherHeader.appendChild(todayWeatherDate)
 			todayWeatherHeader.appendChild(todayWeatherLocation)
@@ -143,29 +143,29 @@
 
 			
 			const todayActualWeather = document.createElement("div"); 
-			todayActualWeather.classList.add("todayActualWeather")
+			todayActualWeather.className = "todayActualWeather"
 
 			const todayTemperatureStats = document.createElement("div");  
-			todayTemperatureStats.classList.add("todayTemperatureStats");
+			todayTemperatureStats.className = "todayTemperatureStats"
 
 			const todayWeatherType = document.createElement("span")
 			todayWeatherType.textContent = `${data[0].weather[0].main}`
-			todayWeatherType.classList.add("todayWeatherType")
+			todayWeatherType.className = "todayWeatherType"
 
 			const todayTemperature = document.createElement("span")
 			todayTemperature.textContent = `${Math.trunc(data[0].main.temp)}°`
-			todayTemperature.classList.add("todayTemperature")
+			todayTemperature.className = "todayTemperature"
 
 			const todayAQI = document.createElement("span")
 			todayAQI.textContent = `AQI: ${aqi}`
-			todayAQI.classList.add("todayAQI") 
+			todayAQI.className = "todayAQI"
 
 			todayTemperatureStats.appendChild(todayWeatherType); 
 			todayTemperatureStats.appendChild(todayTemperature); 
 			todayTemperatureStats.appendChild(todayAQI)
 
 			const todayWeatherImgDiv = document.createElement("div")
-			todayWeatherImgDiv.classList.add("todayWeatherImgDiv") 
+			todayWeatherImgDiv.className = "todayWeatherImgDiv"
 
 			const todayWeatherImage = document.createElement("img")
 			todayWeatherImage.src = `icons/${data[0].weather[0].icon}.svg`
@@ -222,10 +222,8 @@
 
 			const sixDays = []
 
-			for(let i = 0; i < data.list.length; i++) {
-				if(i % 8 == 0) {
-					sixDays.push(data.list[i])
-				}
+			for(let i = 0; i < data.list.length; i += 8) {
+				sixDays.push(data.list[i])
 			}
 
 			if(data.list.length <= 40) {
