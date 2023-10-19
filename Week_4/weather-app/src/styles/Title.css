@@ -1,0 +1,15 @@
+.titleBlock {
+    display: flex; 
+    flex-direction: column; 
+    gap: 5px;
+}
+
+.titleDate {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.titleCity {
+    font-size: 20px;
+    font-weight: bold;
+}

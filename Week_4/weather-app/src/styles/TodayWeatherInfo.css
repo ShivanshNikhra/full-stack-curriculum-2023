@@ -1,0 +1,29 @@
+.todayWeatherInfo {
+    display: flex; 
+    flex-direction: row; 
+    align-items: center;
+    gap: 30px; 
+}
+.todayWeatherStats {
+    display: flex; 
+    flex-direction: column; 
+    gap: 5px;
+}
+.todayWeatherType {
+    font-size: 17.5px;
+    font-weight: bold;
+  }
+
+  .todayWeatherDegree {
+    font-size: 40px;
+    font-weight: bold;
+  }
+
+  .todayAirQuality {
+    font-weight: bold;
+  }
+
+.todayWeatherPic {
+    width: 150px; 
+    height: 150px; 
+}

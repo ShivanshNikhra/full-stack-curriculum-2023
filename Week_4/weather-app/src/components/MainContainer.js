@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "../styles/MainContainer.css"; // Import the CSS file for MainContainer
+import EntireDesign from "./EntireDesign";
 
 function MainContainer(props) {
+
+  const [showComponent, setShowComponent] = useState(false)
+  const [cityName, setCityName] = useState()
+  const [stateName, setStateName] = useState()
+
+  const [allData, setData] = useState() 
+
+
 
   function formatDate(daysFromNow = 0) {
     let output = "";
@@ -10,6 +19,55 @@ function MainContainer(props) {
     output += date.toLocaleString("en-US", { weekday: "long" }).toUpperCase();
     output += " " + date.getDate();
     return output;
+  }
+
+
+  useEffect(() => {
+    if(typeof props.city !== "undefined") {
+      getWeatherData()
+    }
+  }, [props.city]) 
+
+  async function getWeatherData() { 
+			const data = await fiveDayData()
+			const aqi = await retrieveAQI()
+      setData({'weatherData': data, 'airQualitydata': aqi})
+      setShowComponent(true)
+  }
+
+  async function fiveDayData() {
+    let apiCall = `http://api.openweathermap.org/data/2.5/forecast?lat=${props.city.lat}&lon=${props.city.lon}&appid=${props.apiKey}&units=imperial`
+    const response = await fetch(apiCall)
+    const data = await response.json() 
+
+    const sixDays = []
+
+    for(let i = 0; i < data.list.length; i += 8) {
+      sixDays.push(data.list[i])
+    }
+
+    if(data.list.length <= 40) {
+      sixDays.push(data.list[data.list.length - 1]); 
+    }
+    return sixDays; 
+  }
+
+  async function retrieveAQI() {
+    let apiCall = `http://api.openweathermap.org/data/2.5/air_pollution?lat=50&lon=50&appid=${props.apiKey}`
+    const response = await fetch(apiCall)
+    const data = await response.json() 
+
+    return data.list[0].main.aqi 
+  }
+
+  function generateComponents() {
+    if(showComponent === true) {
+      const formatedDates = [] 
+      for(let i = 0; i < 6; i++) {
+        formatedDates.push(formatDate(i)); 
+      }
+      return <EntireDesign dates={formatedDates} city={props.city} data={allData}></EntireDesign>
+    }
   }
   
   /*
@@ -48,17 +106,9 @@ function MainContainer(props) {
   return (
     <div id="main-container">
       <div id="weather-container">
-        {/* 
-        STEP 4: Display Weather Data.
-        
-        With the fetched weather data stored in state, use conditional rendering (perhaps the ternary operator) 
-        to display it here. Make sure to check if the 'weather' state has data before trying to access its 
-        properties to avoid runtime errors. 
-
-        Break down the data object and figure out what you want to display (e.g., temperature, weather description).
-        This is a good section to play around with React components! Create your own - a good example could be a WeatherCard
-        component that takes in props, and displays data for each day of the week.
-        */}
+        {
+          generateComponents()
+        }
       </div>
     </div>
   );
